@@ -10,11 +10,13 @@ $allow = array();
 // Директория куда будут загружаться файлы.
 $path = __DIR__ . '/uploads/'; 
 
+$action = $_POST['action'];
+
 if (isset($_FILES[$input_name])) {
-	// Проверим директорию для загрузки.
+		// Проверим директорию для загрузки.
 	if (!is_dir($path)) {
 		mkdir($path, 0777, true);
-	}	
+	}
 	// Преобразуем массив $_FILES в удобный вид для перебора в foreach.
 	$files = array();
 	$diff = count($_FILES[$input_name]) - count($_FILES[$input_name], COUNT_RECURSIVE);
@@ -97,7 +99,7 @@ if (isset($_FILES[$input_name])) {
 			}
 		}		
 		if (!empty($success)) {
-			Header("Location:parser.php?file=$name");
+			Header("Location:parser.php?file=$name&action=$action");
 		} else {
 			echo '<p>' . $error . '</p>';
 			echo '<a href="/">На главную</a>';
