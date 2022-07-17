@@ -10,6 +10,6 @@ if ($action == 'add') {
     add_new_items($url, $con);
 } elseif ($action == 'delete') {
     delete_items($url, $con);
-} elseif ($action == 'refresh') {
-    echo "$action";
+} elseif ($action == 'update') {
+    update_items($url, $con);
 }

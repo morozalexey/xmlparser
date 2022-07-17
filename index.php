@@ -24,7 +24,7 @@
 		</form>	
 		<h1>Обновить записи в базе(функционал пока не работает)</h1>
 		<form action="/upload.php" method="post" enctype="multipart/form-data" style="border: 1px solid black;width: 300px;padding: 10px;">
-			<input type="text" name="action" value="refresh" hidden>
+			<input type="text" name="action" value="update" hidden>
 			<input type="file" name="file"><br><br>
 			<input type="submit" value="Отправить">
 		</form> 

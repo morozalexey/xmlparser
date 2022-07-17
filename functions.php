@@ -66,5 +66,61 @@ function delete_items($url,$con)
 // Функция обновляет записи, которые пришли в XML и уже есть в базе;
 function update_items($url,$con) 
 {
-    //
+    $xml = simplexml_load_file($url) or die('Sorry'); 
+
+    foreach ($xml->offers->offer as $data) {
+
+        $data = ( (array) $data);
+
+        $id = $data['id'];
+        $mark = $data['mark']; 
+        $model = $data['model']; 
+        $generation = $data['generation']; 
+        $year = $data['year']; 
+        $run = $data['run']; 
+        $color = $data['color']; 
+        $body = $data['body']; 
+        $engine = $data['engine']; 
+        $transmission = $data['transmission']; 
+        $gear = $data['gear']; 
+        $generation_id = $data['generation_id'];
+
+        $stmt = $con->prepare('SELECT * FROM parsing WHERE id =:id');    
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute(); 
+
+        if ($stmt->fetch(PDO::FETCH_NUM)) {            
+            $result = $con->prepare("UPDATE `parsing`
+            SET `id` = :id, 
+                `mark` = :mark, 
+                `model` = :model, 
+                `generation` = :generation,
+                `year` = :year,
+                `run` = :run,
+                `color` = :color,
+                `body` = :body, 
+                `engine` = :engine, 
+                `transmission` = :transmission, 
+                `gear` = :gear, 
+                `generation_id` = :generation_id WHERE `id` = :id");
+            $result->bindValue(':id', $id, PDO::PARAM_INT);
+            $result->bindValue(':mark', $mark); 
+            $result->bindValue(':model', $model); 
+            $result->bindValue(':generation', $generation); 
+            $result->bindValue(':year', $year); 
+            $result->bindValue(':run', $run); 
+            $result->bindValue(':color', $color); 
+            $result->bindValue(':body', $body); 
+            $result->bindValue(':engine', $engine); 
+            $result->bindValue(':transmission', $transmission); 
+            $result->bindValue(':gear', $gear); 
+            $result->bindValue(':generation_id', $generation_id);
+            $result->execute();              
+            if ($result->execute()) {
+                echo "Запись с ID $id обновлена <br>";
+            } else {
+                echo 'Ошибка';
+            } 
+        }    
+    }    
 }
